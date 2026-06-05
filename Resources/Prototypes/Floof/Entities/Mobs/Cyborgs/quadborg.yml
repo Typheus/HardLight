@@ -37,6 +37,7 @@
       shader: unshaded
       map: ["light"]
       visible: false
+  - type: AiRemoteController #Hardlight: Lets quadborgs get listed on the AI's remote device list
   - type: SpriteMovement
     movementLayers:
       movement:

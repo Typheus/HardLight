@@ -123,6 +123,13 @@ public sealed class AiRemoteControlSystem : SharedAiRemoteControlSystem
 
     public void AiTakeControl(EntityUid ai, EntityUid entity)
     {
+        //Hardlight: Used to avoid taking over any borg that has a positronic brain inserted
+        if (!TryComp<BorgChassisComponent>(entity, out var borgChassisComponent))
+            return;
+
+        if (borgChassisComponent.BrainContainer.ContainedEntity != null)
+            return;
+        //Hardlight end
         if (!_mind.TryGetMind(ai, out var mindId, out var mind))
             return;
 
@@ -184,11 +191,20 @@ public sealed class AiRemoteControlSystem : SharedAiRemoteControlSystem
 
         _userInterface.TryToggleUi(uid, RemoteDeviceUiKey.Key, actor.PlayerSession);
 
-        var query = EntityManager.EntityQueryEnumerator<AiRemoteControllerComponent>();
+        var query = EntityQueryEnumerator<AiRemoteControllerComponent>(); //Hardlight: Using recommended function without "EntityManager."
         var remoteDevices = new List<RemoteDevicesData>();
 
         while (query.MoveNext(out var queryUid, out var comp))
         {
+
+            //Hardlight: Prevents listing borgs that have a positronic brain inserted
+            if (!TryComp<BorgChassisComponent>(GetEntity(GetNetEntity(queryUid)), out var borgChassis))
+                continue;
+
+            if (borgChassis.BrainContainer.ContainedEntity != null)
+                continue;
+            //Hardlight end
+
             var data = new RemoteDevicesData
             {
                 NetEntityUid = GetNetEntity(queryUid),
