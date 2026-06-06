@@ -33,6 +33,8 @@ public sealed class AiRemoteControlSystem : SharedAiRemoteControlSystem
     [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
     [Dependency] private readonly SharedTransformSystem _xformSystem = default!;
+    [Dependency] private readonly PositronicJumpSystem _positronicJumpSystem = default!; //Hardlight: Incorporates positronic jump system into transfer
+    [Dependency] private readonly TransformSystem _transformSystem = default!; //Used to prevent AI from selecting borgs from list that aren't on same grid
 
     public override void Initialize()
     {
@@ -182,13 +184,29 @@ public sealed class AiRemoteControlSystem : SharedAiRemoteControlSystem
             return;
         args.Handled = true;
 
+        //Hardlight: Gets AI's current grid
+        var aiGrid = _transformSystem.GetGrid(uid);
+
+        if (aiGrid == null)
+            return;
+        //Hardlight end
+
         _userInterface.TryToggleUi(uid, RemoteDeviceUiKey.Key, actor.PlayerSession);
 
-        var query = EntityManager.EntityQueryEnumerator<AiRemoteControllerComponent>();
+        //var query = EntityManager.EntityQueryEnumerator<AiRemoteControllerComponent>();
+        var query = EntityQueryEnumerator<BorgChassisComponent>();// Hardlight: Queries for Borg Chassis instead of AiRemoteController
         var remoteDevices = new List<RemoteDevicesData>();
 
         while (query.MoveNext(out var queryUid, out var comp))
         {
+            //Hardlight: Compares grid of potential targets to AI grid
+            //Rejects any that are not on the same parent grid
+            var targetEntity = GetEntity(GetNetEntity(queryUid));
+            var targetGrid = _transformSystem.GetGrid(targetEntity);
+
+            if (targetGrid == null || targetGrid != aiGrid)
+                continue;
+            //Hardlight end
             var data = new RemoteDevicesData
             {
                 NetEntityUid = GetNetEntity(queryUid),
@@ -209,9 +227,15 @@ public sealed class AiRemoteControlSystem : SharedAiRemoteControlSystem
 
         var target = GetEntity(msg.RemoteAction?.Target);
 
-        if (!HasComp<AiRemoteControllerComponent>(target))
+        //Hardlight: Swapped out AiRemoteController check as we're now doing
+        //all available shunting components.
+        if (target == null)
             return;
 
+
+        //if (!HasComp<AiRemoteControllerComponent>(target))
+        //    return;
+        //Hardlight end
         switch (msg.RemoteAction?.ActionType)
         {
             case RemoteDeviceActionEvent.RemoteDeviceActionType.MoveToDevice:
@@ -222,7 +246,8 @@ public sealed class AiRemoteControlSystem : SharedAiRemoteControlSystem
                 break;
 
             case RemoteDeviceActionEvent.RemoteDeviceActionType.TakeControl:
-                AiTakeControl(uid, target.Value);
+                _positronicJumpSystem.TryTakeControl(uid, target.Value); //Hardlight: Swapped in shunting system
+                //AiTakeControl(uid, target.Value);
                 break;
         }
     }
