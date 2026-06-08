@@ -206,6 +206,11 @@ public sealed class AiRemoteControlSystem : SharedAiRemoteControlSystem
 
             if (targetGrid == null || targetGrid != aiGrid)
                 continue;
+
+            //Only lists borgs that pass the valid candidate check
+            //TODO: Consider potentially moving grid check into this function
+            if (!_positronicJumpSystem.IsTargetValidControlCandidate(uid, targetEntity))
+                continue;
             //Hardlight end
             var data = new RemoteDevicesData
             {

@@ -342,6 +342,26 @@ public sealed class PositronicJumpSystem : EntitySystem
         return true;
     }
 
+    /// <summary>
+    /// Checks target to make sure user can take control
+    /// </summary>
+    /// <param name="user">User attempting to take control</param>
+    /// <param name="target">Target user is trying to control</param>
+    /// <returns></returns>
+    public bool IsTargetValidControlCandidate(EntityUid user, EntityUid target)
+    {
+        if (!_mind.TryGetMind(user, out var mindId, out var mind))
+            return false;
+
+        if (_mind.TryGetMind(target, out _, out _))
+            return false;
+
+        if (mind.OwnedEntity == target)
+            return false;
+
+        return true;
+    }
+
     public bool TryReturnControl(EntityUid target)
     {
         if (TryComp<RemoteMechPilotComponent>(target, out var remoteMechPilot))
