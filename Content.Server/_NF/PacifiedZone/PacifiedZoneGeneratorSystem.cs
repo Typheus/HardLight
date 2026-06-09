@@ -6,6 +6,7 @@ using Content.Shared.Humanoid;
 using Content.Shared.Mind;
 using Content.Shared.Roles.Jobs;
 using Robust.Shared.Prototypes;
+using Content.Shared.Hands.Components;
 
 namespace Content.Server._NF.PacifiedZone;
 
@@ -60,7 +61,7 @@ public sealed class PacifiedZoneGeneratorSystem : EntitySystem
     private void UpdatePacifiedState(EntityUid genUid, PacifiedZoneGeneratorComponent component)
     {
         List<EntityUid> newEntities = new List<EntityUid>();
-        var query = _lookup.GetEntitiesInRange<HumanoidAppearanceComponent>(Transform(genUid).Coordinates, component.Radius);
+        var query = _lookup.GetEntitiesInRange<HandsComponent>(Transform(genUid).Coordinates, component.Radius); //Hardlight: Changed to HandsComponent since it wasn't affecting non-Humanoid entities
         foreach (var humanoidUid in query)
         {
             // Check preconditions for an entity to be pacified at all.
