@@ -1,0 +1,54 @@
+- type: entity
+  parent: [ BaseItem, BaseSiliconBrainLanguages ]
+  id: AIShuntReceiver
+  name: AI Shunt Receiver
+  description: A long range receiver for an AI to shunt into. Works off-grid at any distance. Must be linked to AI's grid first.
+  components:
+    - type: Sprite
+      sprite: _HL/Objects/Specific/Robotics/mmi.rsi
+      layers:
+      - state: aishuntreceiver
+      - state: aishuntreceiver_overlay
+    - type: Input
+      context: human
+    - type: Organ
+      slotId: brain
+    - type: Brain
+    - type: BlockMovement
+    - type: Examiner
+    - type: BorgBrain
+    - type: IntrinsicRadioReceiver
+    - type: IntrinsicRadioTransmitter
+      channels:
+      - Binary
+    - type: ActiveRadio
+      channels:
+      - Binary
+      - Common
+    - type: NameIdentifier
+      group: PositronicBrain
+    - type: DoAfter
+    - type: Actions
+    - type: TypingIndicator
+      proto: robot
+    - type: Speech
+      speechSounds: Pai
+    - type: Alerts
+    - type: MobState
+      allowedStates:
+      - Alive
+      - Dead
+    - type: Appearance
+    - type: Tag
+      tags:
+      - CannotSuicide
+    - type: GuideHelp
+      guides:
+      - Cyborgs
+      - Robotics
+    - type: ChangeVoiceInContainer
+      whitelist:
+        components:
+        - SecretStash
+    - type: RetroMonitorView # Mono - #3902
+    - type: AIShuntReceiver

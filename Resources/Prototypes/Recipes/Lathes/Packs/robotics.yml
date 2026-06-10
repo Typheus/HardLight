@@ -5,6 +5,7 @@
   recipes:
   - MMI
   - PositronicBrain
+  - AIShuntReceiver # Hardlight
   - SciFlash
   - CyborgEndoskeleton
   - Quadborgendoskeleton

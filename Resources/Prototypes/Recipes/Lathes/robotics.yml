@@ -246,6 +246,20 @@
     Silver: 100
     Plasma: 1000
 
+# Hardlight    
+- type: latheRecipe
+  parent: BaseRoboticsRecipe
+  id: AIShuntReceiver
+  result: AIShuntReceiver
+  completetime: 3
+  materials:
+    Steel: 500
+    Plastic: 500
+    Gold: 100
+    Silver: 100
+    Plasma: 1000
+# Hardlight End
+
 # Modules
 
 - type: latheRecipe

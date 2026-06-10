@@ -1,25 +1,28 @@
-using System.Linq;
+using Content.Server._CorvaxNext.Silicons.Borgs.Components;
+using Content.Server._Mono.SpaceArtillery.Components;
+using Content.Server._NF.Roles.Systems; // VRS: move JobTrackingComponent across shunt (HL #1354)
 using Content.Server.Mech.Systems;
 using Content.Server.Silicons.Borgs;
 using Content.Server.Silicons.Laws;
 using Content.Server.SurveillanceCamera;
-using Content.Server._CorvaxNext.Silicons.Borgs.Components;
-using Content.Server._Mono.SpaceArtillery.Components;
-using Content.Server._NF.Roles.Systems; // VRS: move JobTrackingComponent across shunt (HL #1354)
+using Content.Shared._CorvaxNext.Silicons.Borgs;
+using Content.Shared._HL.Silicons.Components;
 using Content.Shared._NF.Roles.Components; // VRS: move JobTrackingComponent across shunt (HL #1354)
-using Content.Shared.Mech.Components;
 using Content.Shared.Actions;
+using Content.Shared.Mech.Components;
 using Content.Shared.Mind;
 using Content.Shared.PAI;
 using Content.Shared.Popups;
-using Content.Shared._CorvaxNext.Silicons.Borgs;
+using Content.Shared.Roles.Jobs;
 using Content.Shared.Silicons.Borgs.Components;
 using Content.Shared.Silicons.Laws.Components;
 using Content.Shared.Silicons.StationAi;
 using Content.Shared.Turrets;
 using Content.Shared.Verbs;
-using Robust.Shared.GameStates;
+using Robust.Server.GameObjects;
 using Robust.Shared.Containers;
+using Robust.Shared.GameStates;
+using System.Linq;
 
 namespace Content.Server._CorvaxNext.Silicons.Borgs;
 
@@ -33,6 +36,7 @@ public sealed class PositronicJumpSystem : EntitySystem
     [Dependency] private readonly MechSystem _mech = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly JobTrackingSystem _jobTracking = default!; // VRS: HL #1354
+    [Dependency] private readonly TransformSystem _transformSystem = default!;
 
     private const string ReturnToAiAction = "ActionBackToAi";
 
@@ -118,6 +122,10 @@ public sealed class PositronicJumpSystem : EntitySystem
         if (_mind.TryGetMind(uid, out _, out _))
             return;
 
+        //Hardlight: If the user is an AI, then make sure target isn't invalid borg
+        if (HasComp<StationAiHeldComponent>(args.User) && !AITargetingValidBorg(args.User, uid))
+            return;
+        //Hardlight End
         var user = args.User;
         var target = uid;
 
@@ -329,6 +337,11 @@ public sealed class PositronicJumpSystem : EntitySystem
         if (mind.OwnedEntity == target)
             return false;
 
+        //Hardlight: If user is AI make sure they're not taking over an invalid borg
+        if (HasComp<StationAiHeldComponent>(user) && !AITargetingValidBorg(user, target))
+            return false;
+        //Hardlight end
+
         if (mind.OwnedEntity != null)
             TransferReturnState(mind.OwnedEntity.Value, target);
 
@@ -362,6 +375,28 @@ public sealed class PositronicJumpSystem : EntitySystem
         return true;
     }
 
+    //Hardlight:
+    /// <summary>
+    /// Checks if the target is a borg and if so, make sure it has the proper receiver
+    /// installed to restrict AI takeovers.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public bool AITargetingValidBorg(EntityUid user, EntityUid target)
+    {
+        if (!TryComp<BorgChassisComponent>(target, out var chassis))
+            return true;
+
+        if (!TryComp<AIShuntReceiverComponent>(chassis.BrainContainer.ContainedEntity, out var radioComponent))
+            return false;
+
+        if (radioComponent.AssignedGrid == null || radioComponent?.AssignedGrid != _transformSystem.GetGrid(user))
+            return false;
+
+        return true;
+    }
+    //Hardlight End
     public bool TryReturnControl(EntityUid target)
     {
         if (TryComp<RemoteMechPilotComponent>(target, out var remoteMechPilot))
