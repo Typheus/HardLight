@@ -630,7 +630,12 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
 
         pilotComponent.Console = uid;
         ActionBlockerSystem.UpdateCanMove(entity);
-        _sharedStationAiSystem.HandleAiShuttleControl(entity, false); //Hardlight
+
+        //Hardlight: If pilot is an AI, remove AI Eye control
+        if (_sharedStationAiSystem.TryGetCore(entity, out var core))
+            _sharedStationAiSystem.SwitchRemoteEntityMode(core, false);
+        //Hardlight end
+
         pilotComponent.Position = EntityManager.GetComponent<TransformComponent>(entity).Coordinates;
         Dirty(entity, pilotComponent);
     }
@@ -653,7 +658,10 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
 
         _popup.PopupEntity(Loc.GetString("shuttle-pilot-end"), pilotUid, pilotUid);
 
-        _sharedStationAiSystem.HandleAiShuttleControl(pilotUid, true); //Hardlight
+        //Hardlight: If pilot is an AI, return AI Eye control
+        if (_sharedStationAiSystem.TryGetCore(pilotUid, out var core))
+            _sharedStationAiSystem.SwitchRemoteEntityMode(core, true);
+        //Hardlight end
 
         if (pilotComponent.LifeStage < ComponentLifeStage.Stopping)
             EntityManager.RemoveComponent<PilotComponent>(pilotUid);

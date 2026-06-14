@@ -400,24 +400,6 @@ public abstract partial class SharedStationAiSystem : EntitySystem
             _eye.SetDrawFov(user.Value, !isRemote);
     }
 
-    //Hardlight: New function to prevent eye from moving while AI pilots shuttle.
-    /// <summary>
-    /// Checks if the entity is a station AI and disables the AI Eye depending on if it's using a shuttle console
-    /// </summary>
-    /// <param name="uid">The uid of the entity controlling the shuttle</param>
-    /// <param name="canMove">Whether or not you want the AI to move</param>
-    public void HandleAiShuttleControl(EntityUid uid, bool canMove)
-    {
-        if (!HasComp<StationAiHeldComponent>(uid))
-            return;
-
-        if (!TryGetCore(uid, out var stationCore))
-            return;
-
-        SwitchRemoteEntityMode(stationCore, canMove);
-    }
-    //Hardlight end
-
     protected bool SetupEye(Entity<StationAiCoreComponent> ent, EntityCoordinates? coords = null)
     {
         if (_net.IsClient)
