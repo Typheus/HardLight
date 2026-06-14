@@ -55,6 +55,7 @@ public sealed class StationAiSystem : SharedStationAiSystem
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly MetaDataSystem _metaDataSystem = default!; //Hardlight
 
     private readonly HashSet<Entity<StationAiCoreComponent>> _stationAiCores = new();
 
@@ -102,6 +103,12 @@ public sealed class StationAiSystem : SharedStationAiSystem
             var aiBrain = Spawn(_stationAiBrain, Transform(ent.Owner).Coordinates);
             _roles.MindAddJobRole(mindId, mind, false, _stationAiJob);
             _mind.TransferTo(mindId, aiBrain);
+
+            //Hardlight: If the mind has a character name, replace the AI name with the character name
+            //Otherwise it would just say positronic brain in chat
+            if (mind?.CharacterName != null)
+                _metaDataSystem.SetEntityName(aiBrain, mind.CharacterName);
+            //Hardlight end
 
             if (!TryComp<StationAiHolderComponent>(ent, out var targetHolder) ||
                 !_slots.TryInsert(ent, targetHolder.Slot, aiBrain, null))
