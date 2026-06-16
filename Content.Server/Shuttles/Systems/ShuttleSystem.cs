@@ -7,6 +7,7 @@ using Content.Server.Parallax;
 using Content.Server.Procedural;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Events;
+using Content.Server.Silicons.StationAi;
 using Content.Server.Station.Systems;
 using Content.Server.Stunnable;
 using Content.Shared.GameTicking;
@@ -15,6 +16,7 @@ using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Events;
 using Content.Shared.Salvage;
 using Content.Shared.Shuttles.Systems;
+using Content.Shared.Silicons.StationAi;
 using Content.Shared.Throwing;
 using JetBrains.Annotations;
 using Robust.Server.GameObjects;
@@ -66,6 +68,7 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     [Dependency] private readonly ThrusterSystem _thruster = default!;
     [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
     [Dependency] private readonly GameTicker _ticker = default!; //frontier edit to get the main map in FTL
+    [Dependency] private readonly StationAiSystem _stationAiSystem = default!;
     [Dependency] private readonly Content.Shared.Inventory.InventorySystem _inventorySystem = default!;
     [Dependency] private readonly Content.Shared.Damage.DamageableSystem _damageSys = default!;
 
@@ -214,5 +217,30 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     private void OnFTLCompleted(Entity<ShuttleComponent> ent, ref FTLCompletedEvent args)
     {
         ent.Comp.DampingModifier = ent.Comp.BodyModifier;
+
+        //Hardlight: In place to detect onboard AI Cores and fix any broken AI Eyes associated with them
+        if (!TryComp<TransformComponent>(ent, out var shuttleTransComp))
+            return;
+
+        var queryResults = EntityQueryEnumerator<StationAiCoreComponent>();
+
+        while (queryResults.MoveNext(out var coreEntity, out var coreComponent))
+        {
+            if (!TryComp<TransformComponent>(coreEntity, out var coreTransComp))
+                continue;
+
+            if (shuttleTransComp.GridUid != coreTransComp.GridUid)
+                continue;
+
+            if (coreComponent.RemoteEntity == null)
+            {
+                _stationAiSystem.SwitchRemoteEntityMode(coreEntity, false);
+                continue;
+            }
+
+            if (coreComponent.Remote && !TryPrototype(coreComponent.RemoteEntity.Value, out var eyePrototype))
+                _stationAiSystem.RepairAiEye(coreEntity);
+        }
+        //Hardlight end
     }
 }
