@@ -430,6 +430,24 @@ public abstract partial class SharedStationAiSystem : EntitySystem
         if (TryComp<EyeComponent>(user, out var eye))
             _eye.SetDrawFov(user.Value, !isRemote);
     }
+
+    /// <summary>
+    /// Recenters eye on the core
+    /// </summary>
+    /// <param name="ent"></param>
+    public void RecenterAiEye(Entity<StationAiCoreComponent> ent)
+    {
+        if (!TryComp<TransformComponent>(ent, out var coreTransComp))
+            return;
+
+        if (ent.Comp?.RemoteEntity == null)
+            return;
+
+        if (!TryComp<TransformComponent>(ent.Comp.RemoteEntity, out var eyeTransComp))
+            return;
+
+        _xforms.DropNextTo((EntityUid)ent.Comp.RemoteEntity, (EntityUid)ent);
+    }
     //Hardlight end
 
     protected bool SetupEye(Entity<StationAiCoreComponent> ent, EntityCoordinates? coords = null)

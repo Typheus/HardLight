@@ -15,6 +15,7 @@ using Content.Shared.Light.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Events;
 using Content.Shared.Salvage;
+using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Systems;
 using Content.Shared.Silicons.StationAi;
 using Content.Shared.Throwing;
@@ -212,35 +213,62 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     private void OnFTLStarted(Entity<ShuttleComponent> ent, ref FTLStartedEvent args)
     {
         ent.Comp.DampingModifier = 0f;
+
+        PrepOnboardAiCores(ent); //Hardlight
     }
 
     private void OnFTLCompleted(Entity<ShuttleComponent> ent, ref FTLCompletedEvent args)
     {
         ent.Comp.DampingModifier = ent.Comp.BodyModifier;
 
-        //Hardlight: In place to detect onboard AI Cores and fix any broken AI Eyes associated with them
-        if (!TryComp<TransformComponent>(ent, out var shuttleTransComp))
+        CheckAndRepairOnboardAiCoreEyes(ent); //Hardlight
+    }
+
+    //Hardlight: Functions added to recenter AI Eye to make sure it FTLs with the ship and repair it if it doesn't.
+
+    /// <summary>
+    /// Preps onboard AI for FTL. Performs necessary functions for all onboard such as recentering the eyes so they don't stay planetside.
+    /// </summary>
+    /// <param name="ent"></param>
+    private void PrepOnboardAiCores(Entity<ShuttleComponent> ent)
+    {
+        if (!TryComp<TransformComponent>(ent, out var shuttleTransComp) || shuttleTransComp.GridUid == null)
             return;
 
-        var queryResults = EntityQueryEnumerator<StationAiCoreComponent>();
+        HashSet<Entity<StationAiCoreComponent>> shipAiCores = new();
 
-        while (queryResults.MoveNext(out var coreEntity, out var coreComponent))
+        _lookup.GetGridEntities(shuttleTransComp.GridUid.Value, shipAiCores);
+
+        foreach (var coreEntity in shipAiCores)
         {
-            if (!TryComp<TransformComponent>(coreEntity, out var coreTransComp))
-                continue;
+            _stationAiSystem.RecenterAiEye(coreEntity);
+        }
+    }
 
-            if (shuttleTransComp.GridUid != coreTransComp.GridUid)
-                continue;
+    /// <summary>
+    /// Checks onboard AIs after FTL is finished and makes sure their AI Eyes aren't broken. Repairs them if they are.
+    /// </summary>
+    /// <param name="ent"></param>
+    private void CheckAndRepairOnboardAiCoreEyes(Entity<ShuttleComponent> ent)
+    {
+        if (!TryComp<TransformComponent>(ent, out var shuttleTransComp) || shuttleTransComp.GridUid == null)
+            return;
 
-            if (coreComponent.RemoteEntity == null)
+        HashSet<Entity<StationAiCoreComponent>> shipAiCores = new();
+
+        _lookup.GetGridEntities(shuttleTransComp.GridUid.Value, shipAiCores);
+
+        foreach (var coreEntity in shipAiCores)
+        {
+            if (coreEntity.Comp.RemoteEntity == null)
             {
                 _stationAiSystem.RepairAiEye(coreEntity);
                 continue;
             }
 
-            if (coreComponent.Remote && !TryPrototype(coreComponent.RemoteEntity.Value, out var eyePrototype))
+            if (coreEntity.Comp.Remote && !TryPrototype(coreEntity.Comp.RemoteEntity.Value, out var eyePrototype))
                 _stationAiSystem.RepairAiEye(coreEntity);
         }
-        //Hardlight end
     }
+    //Hardlight end
 }
