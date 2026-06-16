@@ -234,7 +234,7 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
 
             if (coreComponent.RemoteEntity == null)
             {
-                _stationAiSystem.SwitchRemoteEntityMode(coreEntity, false);
+                _stationAiSystem.RepairAiEye(coreEntity);
                 continue;
             }
 
