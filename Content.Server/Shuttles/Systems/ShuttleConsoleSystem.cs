@@ -633,7 +633,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
 
         //Hardlight: If pilot is an AI, remove AI Eye control
         if (_sharedStationAiSystem.TryGetCore(entity, out var core))
-            _sharedStationAiSystem.SwitchRemoteEntityMode(core, false);
+            _sharedStationAiSystem.SwitchPilotingMode(core, true);
         //Hardlight end
 
         pilotComponent.Position = EntityManager.GetComponent<TransformComponent>(entity).Coordinates;
@@ -660,7 +660,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
 
         //Hardlight: If pilot is an AI, return AI Eye control
         if (_sharedStationAiSystem.TryGetCore(pilotUid, out var core))
-            _sharedStationAiSystem.SwitchRemoteEntityMode(core, true);
+            _sharedStationAiSystem.SwitchPilotingMode(core, false);
         //Hardlight end
 
         if (pilotComponent.LifeStage < ComponentLifeStage.Stopping)
