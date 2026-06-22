@@ -155,6 +155,8 @@ public sealed class DynamicJobAllocationRule : StationEventSystem<DynamicJobAllo
         // Update ColComm registry (authoritative for tracking).
         _colcommJobs.TrySetJobMidRoundMax(colcomm, component.MercenaryJob, desiredTotal, createSlot: true);
         _colcommJobs.TrySetJobSlot(colcomm, component.MercenaryJob, availableSlots, createSlot: true);
+        _colcommJobs.TrySetJobMidRoundMax(colcomm, component.FreelanceBorgJob, desiredTotal, createSlot: true);
+        _colcommJobs.TrySetJobSlot(colcomm, component.FreelanceBorgJob, availableSlots, createSlot: true);
 
         // Mirror to every physical station's StationJobsComponent for lobby display.
         var stationQuery = EntityQueryEnumerator<Station.Components.StationJobsComponent>();
