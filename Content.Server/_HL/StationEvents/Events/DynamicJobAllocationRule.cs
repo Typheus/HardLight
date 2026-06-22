@@ -171,6 +171,7 @@ public sealed class DynamicJobAllocationRule : StationEventSystem<DynamicJobAllo
     private static bool IsMercenaryJob(ProtoId<JobPrototype> jobId, DynamicJobAllocationRuleComponent component)
     {
         return string.Equals(jobId, component.MercenaryJob, StringComparison.Ordinal)
+               || string.Equals(jobId, component.FreelanceBorgJob, StringComparison.Ordinal)
                || string.Equals(jobId, LegacyFreelancerJobId, StringComparison.Ordinal)
                || string.Equals(jobId, StationJobsSystem.ShipFreelancerInterviewJobId, StringComparison.Ordinal);
     }

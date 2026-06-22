@@ -561,6 +561,7 @@
     - BorgModulesStatic
     - BorgLimbsStatic
     - MechMiscStatic # Mono
+    - FreelanceBorgLimbsStatic #Hardlight
     dynamicPacks:
     - Robotics
     - BorgModules

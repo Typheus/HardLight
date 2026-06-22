@@ -216,6 +216,27 @@
   materials:
     Steel: 500
     Glass: 200
+
+#Freelance
+- type: latheRecipe
+  parent: BaseBorgLimbRecipe
+  id: LeftLegBorgFreelance
+  result: LeftLegBorgFreelance
+
+- type: latheRecipe
+  parent: BaseBorgLimbRecipe
+  id: RightLegBorgFreelance
+  result: RightLegBorgFreelance
+
+- type: latheRecipe
+  parent: BaseBorgLimbRecipe
+  id: HeadBorgFreelance
+  result: HeadBorgFreelance
+
+- type: latheRecipe
+  parent: BaseBorgLimbRecipe
+  id: TorsoBorgFreelance
+  result: TorsoBorgFreelance
 # Hardlight end
 
 # Parts

@@ -2480,4 +2480,8 @@
   - type: DynamicJobAllocationRule
     checkInterval: 600  # Check every 10 minutes (600 seconds)
     mercenaryJob: Mercenary
+    freelanceBorgJob: FreelanceQuadborg
     mercenaryCap: 40  # Maximum slots
+
+
+

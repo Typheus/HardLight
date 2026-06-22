@@ -24,6 +24,12 @@ public sealed partial class DynamicJobAllocationRuleComponent : Component
     public ProtoId<JobPrototype> MercenaryJob = "Mercenary";
 
     /// <summary>
+    /// Freelance Borg job ID
+    /// </summary>
+    [DataField("freelanceBorgJob")]
+    public ProtoId<JobPrototype> FreelanceBorgJob = "FreelanceQuadborg";
+
+    /// <summary>
     /// Maximum number of mercenary slots
     /// </summary>
     [DataField("mercenaryCap")]

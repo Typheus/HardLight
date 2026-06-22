@@ -155,6 +155,7 @@
         SalvageQuadBorg: [ 3, 3 ]
         # Civilian (6)
         Mercenary: [ 0, 40 ]
+        FreelanceQuadborg: [0, 40] #Hardlight
         Passenger: [ -1, -1 ]
         Prisoner: [ 3, 3 ]
         Clown: [ 2, 2 ]

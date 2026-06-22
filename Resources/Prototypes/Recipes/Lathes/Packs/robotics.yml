@@ -115,7 +115,7 @@
   - RightLegBorgFreelance
   - HeadBorgFreelance
   - TorsoBorgFreelance
-- #Hardlight end
+  #Hardlight end
 
 - type: latheRecipePack # HardLight: Added a recipe pack for security quadborg limbs
   id: SecBorgLimbsStatic

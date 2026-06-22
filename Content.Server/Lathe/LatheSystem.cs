@@ -177,10 +177,10 @@ namespace Content.Server.Lathe
             return true;
         }
 
-        public List<ProtoId<LatheRecipePrototype>> GetAvailableRecipes(EntityUid uid, LatheComponent component, bool getUnavailable = false, IEnumerable<ProtoId<AccessLevelPrototype>> accessTags = default!) //Hardlight: Added accessTags parameter
+        public List<ProtoId<LatheRecipePrototype>> GetAvailableRecipes(EntityUid uid, LatheComponent component, bool getUnavailable = false)
         {
             var ev = new LatheGetRecipesEvent((uid, component), getUnavailable);
-            AddRecipesFromPacks(ev.Recipes, component.StaticPacks, accessTags); //Hardlight: Added access tags parameters
+            AddRecipesFromPacks(ev.Recipes, component.StaticPacks);
             RaiseLocalEvent(uid, ev);
             return ev.Recipes.ToList();
         }
@@ -328,9 +328,27 @@ namespace Content.Server.Lathe
 
             var producing = component.CurrentRecipe ?? component.Queue.FirstOrDefault()?.Recipe; // Frontier: add ?.Recipe
 
-            var state = new LatheUpdateState(GetAvailableRecipes(uid, component, false, accessTags), component.Queue, producing); //Hardlight
+            var state = new LatheUpdateState(GetAvailableRecipesWithEntityAccess(uid, component, false, accessTags), component.Queue, producing); //Hardlight: To avoid potentially breaking recipe loading on map load
             _uiSys.SetUiState(uid, LatheUiKey.Key, state);
         }
+
+        //Hardlight: For use with lathe recipes that have access level restrictions
+        /// <summary>
+        /// Gets available recipes while providing user access levels
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="component"></param>
+        /// <param name="getUnavailable"></param>
+        /// <param name="accessTags"></param>
+        /// <returns></returns>
+        public List<ProtoId<LatheRecipePrototype>> GetAvailableRecipesWithEntityAccess(EntityUid uid, LatheComponent component, bool getUnavailable = false, IEnumerable<ProtoId<AccessLevelPrototype>> accessTags = default!)
+        {
+            var ev = new LatheGetRecipesEvent((uid, component), getUnavailable);
+            AddRecipesFromPacksWithAccess(ev.Recipes, component.StaticPacks, accessTags); //Hardlight: Added access tags parameters
+            RaiseLocalEvent(uid, ev);
+            return ev.Recipes.ToList();
+        }
+        //Hardlight end
 
         /// <summary>
         /// Adds every unlocked recipe from each pack to the recipes list.

@@ -12,6 +12,9 @@
 
 - type: playTimeTracker
   id: JobSalvageQuadBorg
+  
+- type: playTimeTracker
+  id: JobFreelanceQuadBorg
 
 - type: playTimeTracker
   id: JobInterdyne

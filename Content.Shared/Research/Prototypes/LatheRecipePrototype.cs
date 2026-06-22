@@ -70,11 +70,5 @@ namespace Content.Shared.Research.Prototypes
         /// </summary>
         [DataField]
         public List<ProtoId<LatheCategoryPrototype>> Categories = new();
-
-        /// <summary>
-        /// Used to restrict recipe access based on character access levels.
-        /// </summary>
-        [DataField]
-        public List<string> RestrictedAccessLevels { get; set; } = new(); //Hardlight
     }
 }

@@ -133,28 +133,26 @@
     noMovementLayers:
       movement:
         state: quadsprite
-  # HardLight start: Added encryption key slots in addition to intrinsic radio channels.
   - type: EncryptionKeyHolder
     keySlots: 10
     preserveExistingChannels: true
     intrinsicChannels:
     - Binary
-    - Trinary # Hardlight
+    - Trinary
     - Common
     - Faction
   - type: IntrinsicRadioTransmitter
     intrinsicChannels:
     - Binary
-    - Trinary # Hardlight
+    - Trinary
     - Common
     - Faction
   - type: ActiveRadio
     intrinsicChannels:
     - Binary
-    - Trinary # Hardlight
+    - Trinary
     - Common
     - Faction
-  # HardLight end
   - type: BorgChassis
     maxModules: 8
     moduleWhitelist:
@@ -171,7 +169,7 @@
     - Mercenary
     - General
   - type: AccessReader
-    access: [["Mercenary"]] # Hardlight allow freelancers to unlock borgs.
+    access: [["Mercenary"]]
   - type: SiliconLawProvider
     laws: Freelance
   - type: FlashImmunity
@@ -181,6 +179,27 @@
     stateOn: quadspritefreelanceballz
     movementStateOff: quadspritefreelance_moving
     movementStateOn: quadspritefreelance_movingballz
+  - type: RandomMetadata
+    nameSegments: [NFNamesBorg]
+    
+- type: entity
+  id: PlayerBorgQuadFreelance
+  parent: BorgChassisQuadFreelance
+  suffix: Battery, Tools
+  components:
+  - type: ContainerFill
+    containers:
+      borg_brain:
+        - PositronicBrain
+      borg_module:
+        - BorgModuleTool
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default
+        startingItem: PowerCellMedium
+  - type: RandomMetadata
+    nameSegments: [NFNamesBorg]
 #Hardlight end
 
 - type: entity

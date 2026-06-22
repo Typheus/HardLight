@@ -70,6 +70,7 @@
           SalvageQuadBorg: [ 3, 3 ]
           # Frontier (1)
           Mercenary: [ 0, 40 ] # Freelancer
+          FreelanceQuadborg: [0, 40] #Hardlight
           # Civilian (7)
           Lawyer: [ 1, 1 ]
           Passenger: [ -1, -1 ]

@@ -59,7 +59,22 @@ public abstract class SharedLatheSystem : EntitySystem
     /// <summary>
     /// Add every recipe in the list of recipe packs to a single hashset.
     /// </summary>
-    public void AddRecipesFromPacks(HashSet<ProtoId<LatheRecipePrototype>> recipes, IEnumerable<ProtoId<LatheRecipePackPrototype>> packs, IEnumerable<ProtoId<AccessLevelPrototype>> accessTags = default!)
+    public void AddRecipesFromPacks(HashSet<ProtoId<LatheRecipePrototype>> recipes, IEnumerable<ProtoId<LatheRecipePackPrototype>> packs)
+    {
+        foreach (var id in packs)
+        {
+            var pack = _proto.Index(id);
+
+            recipes.UnionWith(pack.Recipes);
+        }
+    }
+
+    //Hardlight: For use with recipe packs that have access restrictions
+    /// <summary>
+    /// Add every recipe in the list of recipe packs to a single hashset.
+    /// Checks lathe recipe pack access requirements against user access
+    /// </summary>
+    public void AddRecipesFromPacksWithAccess(HashSet<ProtoId<LatheRecipePrototype>> recipes, IEnumerable<ProtoId<LatheRecipePackPrototype>> packs, IEnumerable<ProtoId<AccessLevelPrototype>> accessTags = default!)
     {
         foreach (var id in packs)
         {
@@ -72,6 +87,7 @@ public abstract class SharedLatheSystem : EntitySystem
             recipes.UnionWith(pack.Recipes);
         }
     }
+    //Hardlight end
 
     //Hardlight start
     /// <summary>
