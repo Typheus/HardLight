@@ -86,6 +86,35 @@
       - tool: Screwing
         doAfter: 0.5
 
+#Hardlight: For Freelance Quadborg construction
+    - to: Quadfreelance
+      steps:
+      - assemblyId: quadfreelance
+        guideString: borg-construction-guide-string
+
+      - material: Cable
+        amount: 1
+        doAfter: 1
+        store: part-container
+
+      - component: Flash
+        name: construction-graph-component-flash
+        store: part-container
+        icon:
+          sprite: Objects/Weapons/Melee/flash.rsi
+          state: flash
+
+      - component: Flash
+        name: construction-graph-component-second-flash
+        store: part-container
+        icon:
+          sprite: Objects/Weapons/Melee/flash.rsi
+          state: flash
+
+      - tool: Screwing
+        doAfter: 0.5
+#Hardlight end
+
     - to: Quadsalv
       steps:
       - assemblyId: quadsalv
@@ -199,6 +228,9 @@
 
   - node: Quadsec
     entity: BorgChassisQuadSec
+    
+  - node: Quadfreelance
+    entity: BorgChassisQuadFreelance
 
   - node: Quadengi
     entity: BorgChassisQuadEngineer

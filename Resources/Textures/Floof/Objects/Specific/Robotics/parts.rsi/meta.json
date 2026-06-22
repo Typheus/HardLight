@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "Made by Fenndragon discord:190763499276861440",
+  "copyright": "Made by Fenndragon discord:190763499276861440, freelance edits by Typheus: 160237428647395328",
   "size": {
     "x": 64,
     "y": 64
@@ -42,6 +42,24 @@
     },
     {
       "name": "borg_sechead+o"
+    },
+	{
+      "name": "borg_l_lancearm+o"
+    },
+    {
+      "name": "borg_r_lancearm+o"
+    },
+    {
+      "name": "borg_l_lanceleg+o"
+    },
+    {
+      "name": "borg_r_lanceleg+o"
+    },
+    {
+      "name": "borg_lancechest+o"
+    },
+    {
+      "name": "borg_lancehead+o"
     },
 	{
       "name": "borg_l_engiarm+o"

@@ -106,6 +106,83 @@
   - type: RandomMetadata
     nameSegments: [NFNamesBorg]
 
+#Hardlight start: Added Freelance Quadborgs borg type
+- type: entity
+  id: BorgChassisQuadFreelance
+  name: freelance quadborg
+  parent: [BorgChassisQuad]
+  components:
+  - type: Sprite
+    sprite: _HL/Mobs/Player/borgs/quads.rsi
+    scale: 0.7, 0.7
+    layers:
+    - state: quadsprite
+      map: ["movement"]
+    - state: quadspritel
+      map: ["enum.BorgVisualLayers.Light"]
+      shader: unshaded
+      visible: false
+    - state: quadspriter
+      shader: unshaded
+      map: ["light"]
+      visible: false
+  - type: SpriteMovement
+    movementLayers:
+      movement:
+        state: quadsprite_moving
+    noMovementLayers:
+      movement:
+        state: quadsprite
+  # HardLight start: Added encryption key slots in addition to intrinsic radio channels.
+  - type: EncryptionKeyHolder
+    keySlots: 10
+    preserveExistingChannels: true
+    intrinsicChannels:
+    - Binary
+    - Trinary # Hardlight
+    - Common
+    - Faction
+  - type: IntrinsicRadioTransmitter
+    intrinsicChannels:
+    - Binary
+    - Trinary # Hardlight
+    - Common
+    - Faction
+  - type: ActiveRadio
+    intrinsicChannels:
+    - Binary
+    - Trinary # Hardlight
+    - Common
+    - Faction
+  # HardLight end
+  - type: BorgChassis
+    maxModules: 8
+    moduleWhitelist:
+      tags:
+      - BorgModuleGeneric
+      - XenoborgModuleGeneric
+      - BorgModuleSyndicate
+      - BorgModuleSyndicateAssault
+    hasMindState: quadspritel
+    noMindState: quadspriter
+  - type: Access
+    enabled: true
+    groups:
+    - Mercenary
+    - General
+  - type: AccessReader
+    access: [["Mercenary"]] # Hardlight allow freelancers to unlock borgs.
+  - type: SiliconLawProvider
+    laws: Freelance
+  - type: FlashImmunity
+  - type: SpriteStateToggle
+    spriteLayer: movement
+    stateOff: quadspritefreelance
+    stateOn: quadspritefreelanceballz
+    movementStateOff: quadspritefreelance_moving
+    movementStateOn: quadspritefreelance_movingballz
+#Hardlight end
+
 - type: entity
   id: BorgChassisQuadMoss
   parent: BorgChassisQuadserv

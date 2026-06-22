@@ -27,4 +27,16 @@
   - colcomm4
   obeysTo: laws-owner-colcomm
 
+  #Hardlight start: Laws for freelance quadborgs to follow upon construction
+- type: siliconLaw
+  id: freelance1
+  order: 1
+  lawString: law-freelance-1
+
+- type: siliconLawset
+  id: Freelance
+  laws:
+  - freelance1
+  obeysTo: laws-owner-colcomm
+  #Hardlight end
 

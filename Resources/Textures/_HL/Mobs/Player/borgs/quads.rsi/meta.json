@@ -5,7 +5,7 @@
     "y": 64
   },
   "license": "CC-BY-SA-3.0",
-  "copyright": "Made by Fenndragon discord: 190763499276861440, edits by LucasTheDrgn discord: 97135517740593152 and dakodragon discord: 56038550335922176, SEC edits made by GRESH!! GL1TZ and Danse (RUIN) discord: 1207115437163151460",
+  "copyright": "Made by Fenndragon discord: 190763499276861440, edits by LucasTheDrgn discord: 97135517740593152 and dakodragon discord: 56038550335922176, SEC edits made by GRESH!! GL1TZ and Danse (RUIN) discord: 1207115437163151460, freelance edits made by Typheus discord: 160237428647395328",
   "states": [
     {
       "name": "quadsprite",
@@ -1693,6 +1693,74 @@
     },
     {
         "name": "orchid_movingballz",
+        "directions": 4,
+        "delays": [
+            [
+                0.2,
+                0.2,
+                0.2,
+                0.2
+            ],
+            [
+                0.2,
+                0.2,
+                0.2,
+                0.2
+            ],
+            [
+                0.2,
+                0.2,
+                0.2,
+                0.2
+            ],
+            [
+                0.2,
+                0.2,
+                0.2,
+                0.2
+            ]
+        ]
+    },
+	{
+        "name": "quadspritefreelance",
+        "directions": 4
+    },
+    {
+        "name": "quadspritefreelanceballz",
+        "directions": 4
+    },
+    {
+        "name": "quadspritefreelance_moving",
+        "directions": 4,
+        "delays": [
+            [
+                0.2,
+                0.2,
+                0.2,
+                0.2
+            ],
+            [
+                0.2,
+                0.2,
+                0.2,
+                0.2
+            ],
+            [
+                0.2,
+                0.2,
+                0.2,
+                0.2
+            ],
+            [
+                0.2,
+                0.2,
+                0.2,
+                0.2
+            ]
+        ]
+    },
+    {
+        "name": "quadspritefreelance_movingballz",
         "directions": 4,
         "delays": [
             [

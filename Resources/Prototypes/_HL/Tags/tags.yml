@@ -10,6 +10,20 @@
 - type: Tag
   id: BorgSecurityTorso
 
+  #Hardlight start: Tags necessary for freelance borg parts
+- type: Tag
+  id: BorgFreelanceLLeg
+
+- type: Tag
+  id: BorgFreelanceRLeg
+
+- type: Tag
+  id: BorgFreelanceHead
+
+- type: Tag
+  id: BorgFreelanceTorso
+  #Hardlight end
+
   #Vox Froguli - shoes that can be worn and won't prevent Vox innate magboots from working
 - type: Tag
   id: WhitelistVoxTalons

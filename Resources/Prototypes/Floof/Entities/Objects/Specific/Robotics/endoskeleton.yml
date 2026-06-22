@@ -63,6 +63,31 @@
         whitelist:
           tags:
           - BorgSecurityTorso
+#freelance parts
+      borg_l_lancearm+o:
+        whitelist:
+          tags:
+          - BorgFreelanceLLeg
+      borg_r_lancearm+o:
+        whitelist:
+          tags:
+          - BorgFreelanceRLeg
+      borg_l_lanceleg+o:
+        whitelist:
+          tags:
+          - BorgFreelanceLLeg
+      borg_r_lanceleg+o:
+        whitelist:
+          tags:
+          - BorgFreelanceRLeg
+      borg_lancehead+o:
+        whitelist:
+          tags:
+          - BorgFreelanceHead
+      borg_lancechest+o:
+        whitelist:
+          tags:
+          - BorgFreelanceTorso
 # Hardlight end
 # engineering parts
       borg_l_engiarm+o:
@@ -181,6 +206,13 @@
       - BorgSecurityRLeg
       - BorgSecurityHead
       - BorgSecurityTorso
+      quadfreelance:
+      - BorgFreelanceLLeg
+      - BorgFreelanceRLeg
+      - BorgFreelanceLLeg
+      - BorgFreelanceRLeg
+      - BorgFreelanceHead
+      - BorgFreelanceTorso
       quadengi:
       - BorgEngineerLLeg
       - BorgEngineerRLeg

@@ -360,3 +360,63 @@
     tags:
     - Trash
     - BorgSecurityTorso
+    
+#Freelance Borg Parts
+- type: entity
+  id: LeftLegBorgFreelance
+  parent: LeftLegBorg
+  name: freelance quadborg left leg
+  components:
+  - type: Sprite
+    state: freelance_l_leg
+  - type: Icon
+    state: freelance_l_leg
+  - type: Tag
+    tags:
+    - Trash
+    - BorgLeg
+    - BorgFreelanceLLeg
+
+- type: entity
+  id: RightLegBorgFreelance
+  parent: RightLegBorg
+  name: freelance quadborg right leg
+  components:
+  - type: Sprite
+    state: freelance_r_leg
+  - type: Icon
+    state: freelance_r_leg
+  - type: Tag
+    tags:
+    - Trash
+    - BorgLeg
+    - BorgFreelanceRLeg
+
+- type: entity
+  id: HeadBorgFreelance
+  parent: LightHeadBorg
+  name: freelance quadborg head
+  components:
+  - type: Sprite
+    state: freelance_head
+  - type: Icon
+    state: freelance_head
+  - type: Tag
+    tags:
+    - Trash
+    - BorgHead
+    - BorgFreelanceHead
+
+- type: entity
+  id: TorsoBorgFreelance
+  parent: TorsoBorg
+  name: freelance quadborg torso
+  components:
+  - type: Sprite
+    state: freelance_chest
+  - type: Icon
+    state: freelance_chest
+  - type: Tag
+    tags:
+    - Trash
+    - BorgFreelanceTorso

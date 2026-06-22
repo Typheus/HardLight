@@ -1,3 +1,4 @@
+using Content.Shared.Access;
 using Content.Shared.Research.Prototypes;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Array;
@@ -28,4 +29,11 @@ public sealed partial class LatheRecipePackPrototype : IPrototype, IInheritingPr
     [DataField(required: true)]
     [AlwaysPushInheritance]
     public HashSet<ProtoId<LatheRecipePrototype>> Recipes = new();
+
+    //Hardlight: AccessLevels for restricting recipe access
+    /// <summary>
+    /// Restricting access to the recipe pack based on access, such as science, engineering, etc.
+    /// </summary>
+    [DataField("accessLevels")]
+    public List<HashSet<ProtoId<AccessLevelPrototype>>> AccessLevels = new();
 }
