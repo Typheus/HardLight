@@ -141,18 +141,24 @@
     - Trinary
     - Common
     - Faction
+    - Freelance
+    - Traffic
   - type: IntrinsicRadioTransmitter
     intrinsicChannels:
     - Binary
     - Trinary
     - Common
     - Faction
+    - Freelance
+    - Traffic
   - type: ActiveRadio
     intrinsicChannels:
     - Binary
     - Trinary
     - Common
     - Faction
+    - Freelance
+    - Traffic
   - type: BorgChassis
     maxModules: 8
     moduleWhitelist:
