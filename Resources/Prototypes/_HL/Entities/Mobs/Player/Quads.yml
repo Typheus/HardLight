@@ -172,7 +172,6 @@
   - type: Access
     enabled: true
     groups:
-    - Mercenary
     - General
   - type: AccessReader
     access: [["Mercenary"]]
