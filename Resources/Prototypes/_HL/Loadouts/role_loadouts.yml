@@ -44,12 +44,6 @@
   id: JobSecurityQuadBorg
   nameDataset: NFNamesBorg # Frontier: use NF variant
   canCustomizeName: true
-  
-# Freelance
-- type: roleLoadout
-  id: JobFreelanceQuadborg
-  nameDataset: NFNamesBorg # Frontier: use NF variant
-  canCustomizeName: true
 
 # Medical
 - type: roleLoadout

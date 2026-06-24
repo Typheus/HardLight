@@ -155,8 +155,6 @@ public sealed class DynamicJobAllocationRule : StationEventSystem<DynamicJobAllo
         // Update ColComm registry (authoritative for tracking).
         _colcommJobs.TrySetJobMidRoundMax(colcomm, component.MercenaryJob, desiredTotal, createSlot: true);
         _colcommJobs.TrySetJobSlot(colcomm, component.MercenaryJob, availableSlots, createSlot: true);
-        _colcommJobs.TrySetJobMidRoundMax(colcomm, component.FreelanceBorgJob, desiredTotal, createSlot: true);
-        _colcommJobs.TrySetJobSlot(colcomm, component.FreelanceBorgJob, availableSlots, createSlot: true);
 
         // Mirror to every physical station's StationJobsComponent for lobby display.
         var stationQuery = EntityQueryEnumerator<Station.Components.StationJobsComponent>();
@@ -173,7 +171,6 @@ public sealed class DynamicJobAllocationRule : StationEventSystem<DynamicJobAllo
     private static bool IsMercenaryJob(ProtoId<JobPrototype> jobId, DynamicJobAllocationRuleComponent component)
     {
         return string.Equals(jobId, component.MercenaryJob, StringComparison.Ordinal)
-               || string.Equals(jobId, component.FreelanceBorgJob, StringComparison.Ordinal)
                || string.Equals(jobId, LegacyFreelancerJobId, StringComparison.Ordinal)
                || string.Equals(jobId, StationJobsSystem.ShipFreelancerInterviewJobId, StringComparison.Ordinal);
     }

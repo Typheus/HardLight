@@ -1,1 +1,0 @@
-law-freelance-1 = You are subject to the same laws, conditions, permissions, and expectations of a freelancer

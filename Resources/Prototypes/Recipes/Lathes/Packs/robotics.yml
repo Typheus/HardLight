@@ -105,17 +105,6 @@
   - RightLegBorgService
   - HeadBorgService
   - TorsoBorgService
-  accessLevels: [["Research"]] #Hardlight: Restricting regular borgs to research
-
-  #Hardlight: For freelance borgs that do not require research access
-- type: latheRecipePack
-  id: FreelanceBorgLimbsStatic
-  recipes:
-  - LeftLegBorgFreelance
-  - RightLegBorgFreelance
-  - HeadBorgFreelance
-  - TorsoBorgFreelance
-  #Hardlight end
 
 - type: latheRecipePack # HardLight: Added a recipe pack for security quadborg limbs
   id: SecBorgLimbsStatic

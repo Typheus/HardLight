@@ -1,4 +1,5 @@
-using Content.Shared.Access; //Hardlight
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Content.Shared.Emag.Systems;
 using Content.Shared.Examine;
 using Content.Shared.Lathe.Prototypes;
@@ -6,11 +7,8 @@ using Content.Shared.Localizations;
 using Content.Shared.Materials;
 using Content.Shared.Research.Prototypes;
 using JetBrains.Annotations;
-using Robust.Shared.Player; //Hardlight
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
-using System.Diagnostics.CodeAnalysis; //Hardlight
-using System.Linq; //Hardlight
 
 namespace Content.Shared.Lathe;
 
@@ -64,62 +62,9 @@ public abstract class SharedLatheSystem : EntitySystem
         foreach (var id in packs)
         {
             var pack = _proto.Index(id);
-
             recipes.UnionWith(pack.Recipes);
         }
     }
-
-    //Hardlight: For use with recipe packs that have access restrictions
-    /// <summary>
-    /// Add every recipe in the list of recipe packs to a single hashset.
-    /// Checks lathe recipe pack access requirements against user access
-    /// </summary>
-    public void AddRecipesFromPacksWithAccess(HashSet<ProtoId<LatheRecipePrototype>> recipes, IEnumerable<ProtoId<LatheRecipePackPrototype>> packs, IEnumerable<ProtoId<AccessLevelPrototype>> accessTags = default!)
-    {
-        foreach (var id in packs)
-        {
-            var pack = _proto.Index(id);
-
-            //Hardlight: Checks to make sure user has proper access for recipe pack to display
-            if (!CanAccessRecipe(pack, accessTags))
-                continue;
-
-            recipes.UnionWith(pack.Recipes);
-        }
-    }
-    //Hardlight end
-
-    //Hardlight start
-    /// <summary>
-    /// Checks user access levels against recipe pack required access levels
-    /// </summary>
-    /// <param name="pack"></param>
-    /// <param name="accessTags"></param>
-    /// <returns></returns>
-    public bool CanAccessRecipe(LatheRecipePackPrototype pack, IEnumerable<ProtoId<AccessLevelPrototype>> accessTags)
-    {
-        if (pack.AccessLevels.Count == 0)
-            return true;
-
-        if (accessTags == null)
-            return false;
-
-        List<ProtoId<AccessLevelPrototype>> requiredLevels = new List<ProtoId<AccessLevelPrototype>>();
-
-        foreach (var accessHash in pack.AccessLevels)
-        {
-            requiredLevels.AddRange(accessHash);
-        }
-
-        foreach (var accessTag in accessTags)
-        {
-            if (requiredLevels.Contains(accessTag))
-                return true;
-        }
-
-        return false;
-    }
-    //Hardlight end
 
     private void OnExamined(Entity<LatheComponent> ent, ref ExaminedEvent args)
     {
